@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror.RemoteCalls;
 using UnityEngine;
-
 namespace Mirror
 {
     /// <summary>
@@ -518,7 +517,7 @@ namespace Mirror
                 }
             }
         }
-
+        
         static void AddTransportHandlers()
         {
             Transport.activeTransport.OnServerConnected = OnConnected;
@@ -526,9 +525,10 @@ namespace Mirror
             Transport.activeTransport.OnServerDisconnected = OnDisconnected;
             Transport.activeTransport.OnServerError = OnError;
         }
-
+        
         static void OnConnected(int connectionId)
         {
+            Telepathy.Client client = new Telepathy.Client(1000);
             if (logger.LogEnabled()) logger.Log("Server accepted client:" + connectionId);
 
             // connectionId needs to be != 0 because 0 is reserved for local player
@@ -548,7 +548,7 @@ namespace Mirror
                 if (logger.LogEnabled()) logger.Log("Server connectionId " + connectionId + " already in use. kicked client:" + connectionId);
                 return;
             }
-
+            
             // are more connections allowed? if not, kick
             // (it's easier to handle this in Mirror, so Transports can have
             //  less code and third party transport might not do that anyway)
@@ -563,7 +563,12 @@ namespace Mirror
             else
             {
                 // kick
-                Transport.activeTransport.ServerDisconnect(connectionId);
+                try{
+                    //Join again with different port
+                     client.Connect("localhost", 7776);
+                }
+                catch{}
+                //Transport.activeTransport.ServerDisconnect(connectionId);
                 if (logger.LogEnabled()) logger.Log("Server full, kicked client:" + connectionId);
             }
         }

@@ -63,7 +63,7 @@ namespace Telepathy
             {
                 throw new Exception("connection id limit reached: " + id);
             }
-
+            Log.Info("XXX");
             return id;
         }
 

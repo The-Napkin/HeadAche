@@ -17,10 +17,9 @@ MonoBehaviour:
     - .collabignore
     - Packages/manifest.json
     - Packages/packages-lock.json
-    - Packages/packages-lock.json.3405018285
     - ProjectSettings/ProjectVersion.txt
     - 
-    m_Values: 000000000000
+    m_Values: 0000000000
   RevisionSummary: 
   ChangesSearchValue: 
   SelectedHistoryRevision: 

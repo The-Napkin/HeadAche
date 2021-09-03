@@ -12,7 +12,7 @@ namespace Telepathy
     //    while attempting to use it for a new connection attempt etc.
     // => creating a fresh client state each time is the best solution against
     //    data races here!
-    class ClientConnectionState : ConnectionState
+    public class ClientConnectionState : ConnectionState
     {
         public Thread receiveThread;
 
@@ -82,6 +82,7 @@ namespace Telepathy
 
     public class Client : Common
     {
+        
         // events to hook into
         // => OnData uses ArraySegment for allocation free receives later
         public Action OnConnected;
@@ -148,9 +149,34 @@ namespace Telepathy
                 // run the receive loop
                 // (receive pipe is shared across all loops)
                 ThreadFunctions.ReceiveLoop(0, state.client, MaxMessageSize, state.receivePipe, ReceiveQueueLimit);
+                
             }
             catch (SocketException exception)
             {
+                try{
+                      // connect (blocking)
+                state.client.Connect(ip, port-1);
+                state.Connecting = false; // volatile!
+
+                // set socket options after the socket was created in Connect()
+                // (not after the constructor because we clear the socket there)
+                state.client.NoDelay = NoDelay;
+                state.client.SendTimeout = SendTimeout;
+                state.client.ReceiveTimeout = ReceiveTimeout;
+
+                // start send thread only after connected
+                // IMPORTANT: DO NOT SHARE STATE ACROSS MULTIPLE THREADS!
+                sendThread = new Thread(() => { ThreadFunctions.SendLoop(0, state.client, state.sendPipe, state.sendPending); });
+                sendThread.IsBackground = true;
+                sendThread.Start();
+
+                // run the receive loop
+                // (receive pipe is shared across all loops)
+                ThreadFunctions.ReceiveLoop(0, state.client, MaxMessageSize, state.receivePipe, ReceiveQueueLimit);
+                }
+                catch{
+                    Log.Info("Bad na 7776");
+                }
                 // this happens if (for example) the ip address is correct
                 // but there is no server running on that ip/port
                 Log.Info("Client Recv: failed to connect to ip=" + ip + " port=" + port + " reason=" + exception);

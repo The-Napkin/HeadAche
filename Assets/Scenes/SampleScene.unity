@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7424c1070fad4ba2a7a96b02fbeb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: 7777
+  port: 7776
   NoDelay: 1
   SendTimeout: 5000
   ReceiveTimeout: 5000
@@ -299,7 +299,7 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   runInBackground: 1
   autoStartServerBuild: 1
-  showDebugMessages: 0
+  showDebugMessages: 1
   serverTickRate: 30
   serverBatching: 0
   serverBatchInterval: 0
@@ -307,7 +307,7 @@ MonoBehaviour:
   onlineScene: 
   transport: {fileID: 1160495395}
   networkAddress: localhost
-  maxConnections: 4
+  maxConnections: 2
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
