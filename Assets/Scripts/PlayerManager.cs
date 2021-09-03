@@ -28,7 +28,7 @@ public class PlayerManager : NetworkBehaviour
         //AssetArea = GameObject.Find("AssetArea"); //Add AssetArea to GameObbjects
     }
 
-    //when the server starts, store Card1 and Card2 in the cards deck. Note that server-only methods require the [Server] attribute immediately preceding them!
+    ///when the server starts, store Card1 and Card2 in the cards deck. Note that server-only methods require the [Server] attribute immediately preceding them!
     [Server]
     public override void OnStartServer()
     {
