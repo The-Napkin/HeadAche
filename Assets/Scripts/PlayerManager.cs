@@ -13,6 +13,7 @@ public class PlayerManager : NetworkBehaviour
     public GameObject PlayerArea;
     public GameObject EnemyArea;
     public GameObject DropZone;
+    //public GameObject AssetArea;
 
     //the cards List represents our deck of cards
     List<GameObject> cards = new List<GameObject>();
@@ -24,6 +25,7 @@ public class PlayerManager : NetworkBehaviour
         PlayerArea = GameObject.Find("PlayerArea");
         EnemyArea = GameObject.Find("EnemyArea");
         DropZone = GameObject.Find("DropZone");
+        //AssetArea = GameObject.Find("AssetArea"); //Add AssetArea to GameObbjects
     }
 
     //when the server starts, store Card1 and Card2 in the cards deck. Note that server-only methods require the [Server] attribute immediately preceding them!
@@ -32,14 +34,23 @@ public class PlayerManager : NetworkBehaviour
     {
         cards.Add(Card1);
         cards.Add(Card2);
+        //cards.Add(Card4);
+        //cards.Add(Card5);
+        //cards.Add(Card6);
+        //cards.Add(Card7);
+        //cards.Add(Card8);
+        //cards.Add(Card9);
+        //cards.Add(Card10);
+
     }
     
     //Commands are methods requested by Clients to run on the Server, and require the [Command] attribute immediately preceding them. CmdDealCards() is called by the DrawCards script attached to the client Button
     [Command]
+    //OnClickButton DealCards edit it to make sure its your turn(if possible) and you have max card count
     public void CmdDealCards()
     {
         //(5x) Spawn a random card from the cards deck on the Server, assigning authority over it to the Client that requested the Command. Then run RpcShowCard() and indicate that this card was "Dealt"
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)//change to something like 1 or 2-3 based of Matus vision
         {
             GameObject card = Instantiate(cards[Random.Range(0, cards.Count)], new Vector2(0, 0), Quaternion.identity);
             NetworkServer.Spawn(card, connectionToClient);
@@ -50,7 +61,7 @@ public class PlayerManager : NetworkBehaviour
     //PlayCard() is called by the DragDrop script when a card is placed in the DropZone, and requests CmdPlayCard() from the Server
     public void PlayCard(GameObject card)
     {
-        CmdPlayCard(card);
+        CmdPlayCard(card); //create script to actually handle this thing to maybe create like percentge of how much you chance to win is or idk
     }
 
     //CmdPlayCard() uses the same logic as CmdDealCards() in rendering cards on all Clients, except that it specifies that the card has been "Played" rather than "Dealt"
@@ -67,6 +78,7 @@ public class PlayerManager : NetworkBehaviour
         //if the card has been "Dealt," determine whether this Client has authority over it, and send it either to the PlayerArea or EnemyArea, accordingly. For the latter, flip it so the player can't see the front!
         if (type == "Dealt")
         {
+            //also make here that if gameobject type is either perk or a card 
             if (hasAuthority)
             {
                 card.transform.SetParent(PlayerArea.transform, false);
@@ -81,6 +93,7 @@ public class PlayerManager : NetworkBehaviour
         else if (type == "Played")
         {
             card.transform.SetParent(DropZone.transform, false);
+            //add exception
             if (!hasAuthority)
             {
                 card.GetComponent<CardFlipper>().Flip();
@@ -115,7 +128,7 @@ public class PlayerManager : NetworkBehaviour
     {
         Debug.Log("Targeted by other!");
     }
-
+//all of this is useless shit delete it
     //CmdIncrementClick() is called by the IncrementClick script
     [Command]
     public void CmdIncrementClick(GameObject card)
