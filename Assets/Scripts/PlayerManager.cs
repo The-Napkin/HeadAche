@@ -49,7 +49,16 @@ public class PlayerManager : NetworkBehaviour
     //OnClickButton DealCards edit it to make sure its your turn(if possible) and you have max card count
     public void CmdDealCards()
     {
+        //Add so that player doesnt have more than number cards, if he has 0 he wins.
         //(5x) Spawn a random card from the cards deck on the Server, assigning authority over it to the Client that requested the Command. Then run RpcShowCard() and indicate that this card was "Dealt"
+       //if(DrawByCard){
+           //for (int i = DrawByCardCount){
+               //GameObject card = Instantiate(cards[Random.Range(0, cards.Count)], new Vector2(0, 0), Quaternion.identity);
+                //NetworkServer.Spawn(card, connectionToClient);
+                //RpcShowCard(card, "Dealt");
+
+           //}
+       //}
         for (int i = 0; i < 5; i++)//change to something like 1 or 2-3 based of Matus vision
         {
             GameObject card = Instantiate(cards[Random.Range(0, cards.Count)], new Vector2(0, 0), Quaternion.identity);
