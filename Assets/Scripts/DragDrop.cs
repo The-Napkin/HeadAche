@@ -68,6 +68,7 @@ public class DragDrop : NetworkBehaviour
         //if the gameobject is put in a dropzone, set it as a child of the dropzone and access the PlayerManager of this client to let the server know a card has been played
         if (isOverDropZone)
         {
+            //Add here stuff for handling different card details.
             transform.SetParent(dropZone.transform, false);
             isDraggable = false;
             NetworkIdentity networkIdentity = NetworkClient.connection.identity;

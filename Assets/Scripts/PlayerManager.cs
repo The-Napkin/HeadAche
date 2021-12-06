@@ -77,6 +77,7 @@ public class PlayerManager : NetworkBehaviour
     [Command]
     void CmdPlayCard(GameObject card)
     {
+        //handling of card properties 
         RpcShowCard(card, "Played");
     }
 
