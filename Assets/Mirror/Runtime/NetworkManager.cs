@@ -92,7 +92,7 @@ namespace Mirror
         [Scene]
         [FormerlySerializedAs("m_OfflineScene")]
         [Tooltip("Scene that Mirror will switch to when the client or server is stopped")]
-        public string offlineScene = "";
+        public string offlineScene = "";//"LobbyScene";
 
         /// <summary>
         /// The scene to switch to when online.
@@ -101,7 +101,7 @@ namespace Mirror
         [Scene]
         [FormerlySerializedAs("m_OnlineScene")]
         [Tooltip("Scene that Mirror will switch to when the server is started. Clients will recieve a Scene Message to load the server's current scene when they connect.")]
-        public string onlineScene = "";
+        public string onlineScene = "";//"SampleScene";
 
         // transport layer
         [Header("Network Info")]
